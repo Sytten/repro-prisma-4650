@@ -6,6 +6,12 @@
   "author": "Emile Fugulin <code@efugulin.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "introspect": "prisma introspect",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate-legacy up --experimental",
+    "migration": "prisma migrate-legacy save --experimental"
+  },
   "dependencies": {
     "@prisma/client": "2.13.0",
     "@prisma/cli": "2.13.0"

@@ -1,26 +1,43 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 async function main() {
-  const userWithPost = await prisma.anotherUser.create({
+  const calendar = await prisma.calendar.create({
     data: {
-      name: "Alice",
-      anotherPost: {
-        create: { title: "Hello World" },
+      provider: "GOOGLE",
+      providerId: "123",
+      accessRole: "viewer",
+      summary: "test",
+      timeZone: "edt",
+      events: {
+        create: [
+          {
+            start: new Date(),
+            end: new Date(),
+            provider: "Google",
+            providerId: "456",
+          },
+          {
+            start: new Date(),
+            end: new Date(),
+            provider: "Google",
+            providerId: "897",
+          },
+        ],
       },
     },
   });
-  const allUsers1 = await prisma.anotherUser.findMany();
-  const allPosts1 = await prisma.anotherPost.findMany();
+  const calendarsCount1 = await prisma.calendar.count();
+  const eventsCount1 = await prisma.calendarEvent.count();
   console.log(
-    `Before deleting the \`AnotherUser\` record there are ${allUsers1.length} users and ${allPosts1.length} posts.`
+    `Before deleting the calendar record there are ${calendarsCount1} calendars and ${eventsCount1} events.`
   );
-  const deletedUser = await prisma.anotherUser.delete({
-    where: { id: userWithPost.id },
+  await prisma.calendar.delete({
+    where: { id: calendar.id },
   });
-  const allUsers2 = await prisma.anotherUser.findMany();
-  const allPosts2 = await prisma.anotherPost.findMany();
+  const calendarsCount2 = await prisma.calendar.count();
+  const eventsCount2 = await prisma.calendarEvent.count();
   console.log(
-    `After deleting the \`AnotherUser\` record there are ${allUsers2.length} users and ${allPosts2.length} posts.`
+    `After deleting the calendar record there are ${calendarsCount2} calendars and ${eventsCount2} events.`
   );
 }
 main();
