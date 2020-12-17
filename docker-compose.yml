@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    environment:
+      POSTGRES_DB: prisma
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: prisma
+    image: postgres:11
+    ports:
+      - '6432:5432'
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
